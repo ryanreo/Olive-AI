@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for React frontend
 
 # Deepseek API configuration
-DEEPSEEK_API_KEY = os.getenv('sk-c7cfd12d60db4c2a944d8feaabab4583', 'sk-c7cfd12d60db4c2a944d8feaabab4583')
+DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
 
 def create_medical_prompt(symptoms):
