@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React frontend
 
-# Deepseek API configuration - Fixed the os.getenv usage
+# Deepseek API configuration
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY', 'sk-c7cfd12d60db4c2a944d8feaabab4583')
 DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
 
@@ -26,6 +26,13 @@ Please provide:
 IMPORTANT MEDICAL DISCLAIMER: This information is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers for proper medical care. If this is a medical emergency, call emergency services immediately.
 
 Please keep your response helpful but concise, and always prioritize user safety."""
+
+@app.route('/', methods=['GET'])
+@app.route('/api', methods=['GET'])
+@app.route('/api/', methods=['GET'])
+def home():
+    """Root endpoint"""
+    return jsonify({"message": "Olive Health API is running!", "status": "healthy"})
 
 @app.route('/api/health-check', methods=['GET'])
 def health_check():
@@ -110,9 +117,9 @@ def emergency_check():
     
     return jsonify({"is_emergency": False})
 
-if __name__ == '__main__':
-    # Check if API key is set
-    if DEEPSEEK_API_KEY == 'your-api-key-here':
-        print("⚠️  Warning: Please set your DEEPSEEK_API_KEY environment variable")
-    
-    app.run(debug=True, port=5000)
+# For Vercel
+if __name__ == "__main__":
+    app.run(debug=True)
+else:
+    # This is what Vercel will use
+    application = app
